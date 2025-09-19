@@ -1,5 +1,6 @@
 from .tracker import Tracker
 from ..settings.tracker import TrackerSettings
+from ...utils import logger
 
 from datetime import datetime
 
@@ -17,7 +18,7 @@ class BinanceTracker(Tracker):
 
         if self.cached_data["data"]["id"]:
             last_id = self.cached_data["data"]["id"][-1]
-            print(f"Sending {last_id} to db: {self.cached_data['data']['data'][last_id]}")
+            logger.info(f"Sending {last_id} to db: {self.cached_data['data']['data'][last_id]}")
 
 
     def _track(self) -> tuple[bool, str]:
