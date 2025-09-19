@@ -8,7 +8,6 @@ from ..settings.tracker import TrackerSettings
 
 from ...exchange_api import Exchanges
 from ...utils import logger, FileManager
-print("Success")
 
 class Tracker(TrackerAbstract):
 
@@ -69,8 +68,9 @@ class Tracker(TrackerAbstract):
 
     def _create_directories(self) -> tuple[dict , dict | list[dict]]:
 
-        parent_directory = f"{self.tracker_settings.exchange}_cache"
+        parent_directory = f"cache/{self.tracker_settings.exchange}"
         directory_tree = [
+            "cache",
             parent_directory,
             f"{parent_directory}/data",
             f"{parent_directory}/errors",
@@ -82,9 +82,9 @@ class Tracker(TrackerAbstract):
 
         directories = {
             "directory_tree": directory_tree,
-            "data": directory_tree[4],
-            "errors": directory_tree[5],
-            "metadata": directory_tree[6],
+            "data": directory_tree[5],
+            "errors": directory_tree[6],
+            "metadata": directory_tree[7],
         }
 
         msg = self.file_manager.create_directory(dirs=directory_tree, mode="multiple")
