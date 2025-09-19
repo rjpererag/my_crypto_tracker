@@ -1,0 +1,43 @@
+{
+  "timestamp": "20250919094248",
+  "tracker_settings": {
+    "exchange": "binance",
+    "tickets": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "execute_params": {},
+    "save_cached_data": true,
+    "waiting_time": 2
+  },
+  "directories": [
+    {
+      "path": "binance_cache",
+      "status": "already exists"
+    },
+    {
+      "path": "binance_cache/data",
+      "status": "already exists"
+    },
+    {
+      "path": "binance_cache/errors",
+      "status": "already exists"
+    },
+    {
+      "path": "binance_cache/metadata",
+      "status": "already exists"
+    },
+    {
+      "path": "binance_cache/data/json",
+      "status": "already exists"
+    },
+    {
+      "path": "binance_cache/errors/json",
+      "status": "already exists"
+    },
+    {
+      "path": "binance_cache/metadata/json",
+      "status": "already exists"
+    }
+  ]
+}

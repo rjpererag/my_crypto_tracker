@@ -5,10 +5,10 @@ from time import sleep
 
 from ..abstract.tracker_abstract import TrackerAbstract
 from ..settings.tracker import TrackerSettings
-from ....exchange_api import Exchanges
 
-from ....utils import logger, FileManager
-
+from ...exchange_api import Exchanges
+from ...utils import logger, FileManager
+print("Success")
 
 class Tracker(TrackerAbstract):
 
@@ -69,7 +69,7 @@ class Tracker(TrackerAbstract):
 
     def _create_directories(self) -> tuple[dict , dict | list[dict]]:
 
-        parent_directory = self.tracker_settings.exchange
+        parent_directory = f"{self.tracker_settings.exchange}_cache"
         directory_tree = [
             parent_directory,
             f"{parent_directory}/data",

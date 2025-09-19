@@ -1,7 +1,6 @@
 from .tracker import Tracker
 from ..settings.tracker import TrackerSettings
-from ....utils import logger
-from dataclasses import asdict
+
 from datetime import datetime
 
 
