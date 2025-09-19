@@ -1,0 +1,44 @@
+# Python cache / build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# Tests and coverage
+htmlcov/
+.coverage
+.coverage.*
+.pytest_cache/
+
+# Git / IDE
+.git/
+.gitignore
+.gitattributes
+.idea/
+.vscode/
+*.swp
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+cache
