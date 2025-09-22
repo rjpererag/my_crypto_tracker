@@ -4,7 +4,7 @@ from service.dbhandler import DBHandler, DBCredentials
 
 def main() -> None:
     creds = DBCredentials(
-        db_name="mydatabase",
+        db_name="postgres",
         db_user="postgres",
         db_password="mypassword",
         db_port="5432",
