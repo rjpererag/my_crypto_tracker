@@ -52,8 +52,8 @@ class DBHandler:
                         elif args[0] == "fetchmany":
                             results = cursor.fetchmany()
 
-                        else:
-                            results = cursor.fetchall()
+                    else:
+                        results = cursor.fetchall()
 
                     conn.close()
                     return results
