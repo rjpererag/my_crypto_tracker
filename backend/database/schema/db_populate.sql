@@ -16,5 +16,5 @@ VALUES
     (
         (SELECT s.id FROM symbols s WHERE s.name = 'ethereum'),
         (SELECT e.id FROM exchange e WHERE e.name = 'binance'),
-        'BTCUSD'
+        'ETHUSD'
     );
