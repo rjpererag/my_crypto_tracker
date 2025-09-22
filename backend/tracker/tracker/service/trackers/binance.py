@@ -1,25 +1,39 @@
+import json
+from datetime import datetime
+from time import sleep
+
 from .tracker import Tracker
 from ..settings.tracker import TrackerSettings
 from ...utils import logger
+from ...exchange_api import Ticket
 
-from datetime import datetime
 
 
 
 class BinanceTracker(Tracker):
 
-    def __init__(self, tracker_settings: TrackerSettings):
-        super().__init__(tracker_settings=tracker_settings, current_tracker="binance")
+    def __init__(self,
+                 tracker_settings: TrackerSettings):
+        super().__init__(tracker_settings=tracker_settings,
+                         current_tracker="binance")
         self.binance = self.exchanges.binance
 
-    def _send_data(self):
-        # TODO
-        """ THIS METHOD WILL BE USED TO SEND THE DATA TO THE DB"""
+    def _create_message(self, tickets: list[Ticket]) -> str:
 
-        if self.cached_data["data"]["id"]:
-            last_id = self.cached_data["data"]["id"][-1]
-            logger.info(f"Sending {last_id} to db: {self.cached_data['data']['data'][last_id]}")
+        def _validate_and_create_message(ticket: Ticket) -> dict:
+            is_valid = isinstance(ticket.price, float | int) and isinstance(ticket.symbol, str)
+            return {
+                "is_valid": is_valid,
+                "ticket": {
+                    "exchange_name": self.current_tracker,
+                    "ticker": ticket.symbol,
+                    "price": ticket.price,
+                    "timestamp": datetime.now().strftime("%Y%m%d%H%M%S"),  # TODO: CHANGE TO TICKET'S TIMESTAMP
+                }
+            }
 
+        messages_to_send = [_validate_and_create_message(ticket=ticket) for ticket in tickets]
+        return json.dumps(messages_to_send)
 
     def _track(self) -> tuple[bool, str]:
         try:
@@ -36,11 +50,14 @@ class BinanceTracker(Tracker):
             msg = "No error found"
 
             self._save_cached_data()
-            self._send_data()
+
+            messages_to_send = self._create_message(tickets=my_tickets)
+            self._send_to_broker(message=messages_to_send)
 
         except Exception as e:
             is_successful = False
             msg = str(e)
+            logger.error(f"Error found: {msg}")
 
         return is_successful, msg
 

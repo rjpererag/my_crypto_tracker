@@ -1,3 +1,4 @@
+import json
 from typing import Any
 from dataclasses import asdict
 import datetime
@@ -5,6 +6,7 @@ from time import sleep
 
 from ..abstract.tracker_abstract import TrackerAbstract
 from ..settings.tracker import TrackerSettings
+from ..message_broker import send_message
 
 from ...exchange_api import Exchanges
 from ...utils import logger, FileManager
@@ -34,6 +36,16 @@ class Tracker(TrackerAbstract):
 
         self._save_metadata()
 
+    def _send_to_broker(self, message: str) -> None:
+        try:
+            send_message(conn_settings=self.tracker_settings.msg_broker_params,
+                         message=message)
+            logger.info(f"Sent message successfully. {message}")
+        except Exception as e:
+            self.cached_data['errors']["message_broker"] = str(e)
+            logger.error(f"Message NOT sent. {message}. {str(e)}")
+
+
     def _save_metadata(self) -> None:
 
         path_ = self.directories.get('metadata')
@@ -44,7 +56,6 @@ class Tracker(TrackerAbstract):
             object_=object_
         )
 
-
     def _save_cached_data(self) -> None:
 
         if self.tracker_settings.save_cached_data:
@@ -54,11 +65,12 @@ class Tracker(TrackerAbstract):
                 object_=self.cached_data["data"]["data"]
             )
 
-
     def _create_cached_data(self) -> dict:
         return {
             "data": {"id": [], "data": {}},
-            "errors": {},
+            "errors": {
+                "message_broker": []
+            },
             "metadata": {
                 "timestamp": self.now_str,
                 "tracker_settings": asdict(self.tracker_settings),
@@ -112,4 +124,3 @@ class Tracker(TrackerAbstract):
 
     def _track(self):
         ...
-

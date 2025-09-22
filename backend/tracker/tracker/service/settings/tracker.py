@@ -8,3 +8,4 @@ class TrackerSettings:
     execute_params: dict | None = None
     save_cached_data: bool = False
     waiting_time: int | None = 10
+    msg_broker_params: dict | None = None
