@@ -11,10 +11,10 @@ VALUES
     (
         (SELECT s.id FROM symbols s WHERE s.name = 'bitcoin'),
         (SELECT e.id FROM exchange e WHERE e.name = 'binance'),
-        'BTCUSD'
+        'BTCUSDT'
     ),
     (
         (SELECT s.id FROM symbols s WHERE s.name = 'ethereum'),
         (SELECT e.id FROM exchange e WHERE e.name = 'binance'),
-        'ETHUSD'
+        'ETHUSDT'
     );
