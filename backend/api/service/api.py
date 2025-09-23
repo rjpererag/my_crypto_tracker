@@ -56,7 +56,6 @@ def get_tickers(symbol_name: str, exchange_name: str):
 
 @app.route('/price-history-minutes/<string:minutes>/<string:ticker>', methods=['GET'])
 def get_price_history_minutes(minutes: str, ticker: str):
-    """WE MUST USE '120 minute'"""
     return _get(
         get_price_history(),
         format_price_history,

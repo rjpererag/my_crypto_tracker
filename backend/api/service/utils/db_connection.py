@@ -6,7 +6,7 @@ def build_db_creds() -> dict:  # TODO CHANGE TO USE ENV VARIABLES
         "dbname": "postgres",
         "user": "postgres",
         "password": "mypassword",
-        "host": "localhost",
+        "host": "db",
         "port": "5432"
     }
 
