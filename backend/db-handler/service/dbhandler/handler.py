@@ -13,7 +13,7 @@ class DBHandler:
             "dbname": creds.db_name,
             "user": creds.db_user,
             "password": creds.db_password,
-            "host": "db",  # TODO: THIS MUST BE ADDED TO THE CREDENTIALS
+            "host": creds.db_host,
             "port": creds.db_port
         }
 

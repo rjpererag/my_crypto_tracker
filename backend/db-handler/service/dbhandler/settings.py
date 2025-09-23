@@ -7,3 +7,4 @@ class DBCredentials:
     db_user: str = None
     db_password: str = None
     db_port: str = None
+    db_host: str = None
