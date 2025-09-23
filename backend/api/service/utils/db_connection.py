@@ -1,13 +1,15 @@
+from decouple import config
+
 from psycopg2 import pool
 from psycopg2.extensions import connection
 
-def build_db_creds() -> dict:  # TODO CHANGE TO USE ENV VARIABLES
+def build_db_creds() -> dict:
     return {
-        "dbname": "postgres",
-        "user": "postgres",
-        "password": "mypassword",
-        "host": "db",
-        "port": "5432"
+        "dbname": config("POSTGRES_DB"),
+        "user": config("POSTGRES_USER"),
+        "password": config("POSTGRES_PASSWORD"),
+        "host": config("POSTGRES_HOST"),
+        "port": config("POSTGRES_PORT")
     }
 
 
