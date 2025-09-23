@@ -32,6 +32,7 @@ services:
       - ".env"
     depends_on:
       - rabbitmq
+      - db
 
   db-handler:
     build:
@@ -43,6 +44,19 @@ services:
       - ".env"
     depends_on:
       - rabbitmq
+      - db
+
+  api:
+    build:
+      context: ./backend/api
+      dockerfile: Dockerfile
+    container_name: my-api
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+    env_file:
+      - ".env"
+    depends_on:
       - db
 
 volumes:
