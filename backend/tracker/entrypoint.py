@@ -1,16 +1,16 @@
+from decouple import config
 from tracker.tracker_wrapper import CryptoTracker, TrackerSettings
 
-def track_from_exchange(exchange_name: str,
-                        tickets: list[str],
-                        save_cached_data: bool,
-                        execute_params: dict,
-                        waiting_time: int,
-                        msg_broker_params: dict,
-                        ):
+def track_from_binance(
+        save_cached_data: bool,
+        execute_params: dict,
+        waiting_time: int,
+        msg_broker_params: dict,
+):
 
     my_settings = TrackerSettings(
-        exchange=exchange_name,
-        tickets=tickets,
+        exchange="binance",
+        tickets=["BTCUSDT", "ETHUSDT"],
         save_cached_data=save_cached_data,
         execute_params=execute_params,
         waiting_time=waiting_time,
@@ -22,17 +22,15 @@ def track_from_exchange(exchange_name: str,
 
 
 def main() -> None:
-    track_from_exchange(
-        exchange_name="binance",
-        tickets=["BTCUSDT", "ETHUSDT"],
-        save_cached_data=False,
+    track_from_binance(
+        save_cached_data=config("TRACKER_SAVE_CACHED_DATA", cast=bool, default=False),
         execute_params={},
-        waiting_time=2,
+        waiting_time=config("TRACKER_WAITING_TIME", cast=int, default=10),
         msg_broker_params={
-            "host": "rabbitmq",
-            "queue_name": "my_queue",
-            "exchange_name": "",
-            "routing_key": "my_queue"
+            "host": config("RABBITMQ_HOST"),
+            "queue_name": config("RABBITMQ_QUEUE_NAME"),
+            "exchange_name": config("RABBITMQ_EXCHANGE_NAME"),
+            "routing_key": config("RABBITMQ_ROUTING_KEY")
         },
     )
 
