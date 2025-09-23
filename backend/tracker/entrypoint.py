@@ -29,7 +29,7 @@ def main() -> None:
         execute_params={},
         waiting_time=2,
         msg_broker_params={
-            "host": "localhost",
+            "host": "rabbitmq",
             "queue_name": "my_queue",
             "exchange_name": "",
             "routing_key": "my_queue"

@@ -14,5 +14,36 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: my-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  tracker:
+    build:
+      context: ./backend/tracker
+      dockerfile: Dockerfile
+    container_name: my-tracker
+    restart: unless-stopped
+    env_file:
+      - ".env"
+    depends_on:
+      - rabbitmq
+
+  db-handler:
+    build:
+      context: ./backend/db-handler
+      dockerfile: Dockerfile
+    container_name: my-db-handler
+    restart: unless-stopped
+    env_file:
+      - ".env"
+    depends_on:
+      - rabbitmq
+      - db
+
 volumes:
   postgres_data:

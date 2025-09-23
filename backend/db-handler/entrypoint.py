@@ -18,7 +18,7 @@ def main() -> None:
     handler = db_connection()
 
     msg_broker_params = {
-        "host": "localhost",
+        "host": "rabbitmq",
         "queue_name": "my_queue",
         "exchange_name": "",
         "routing_key": "my_queue"
