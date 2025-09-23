@@ -32,3 +32,14 @@ def format_get_tickers_response(results: list[tuple]) -> list[dict]:
             for item in results if isinstance(item, tuple) and len(item) == 3]
 
     return formatted_result
+
+def format_price_history(results: list[tuple]) -> list[dict]:
+    formatted_result = []
+    if results:
+        formatted_result = [
+            {"ticker": item[0],
+             "price": item[1],
+             "date": item[2]}
+            for item in results if isinstance(item, tuple) and len(item) == 3]
+
+    return formatted_result

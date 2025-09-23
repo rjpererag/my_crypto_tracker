@@ -12,7 +12,7 @@ def get_exchanges_() -> str:
     ORDER BY e."name";
     """
 
-def get_tickers_() -> str:  # TODO: INCLUDE ARGS TO HANDLE FILTERING
+def get_tickers_() -> str:
     return """
     SELECT t.ticker, e."name", s."name"
     FROM tickers t
@@ -22,11 +22,13 @@ def get_tickers_() -> str:  # TODO: INCLUDE ARGS TO HANDLE FILTERING
     ORDER BY s."name";
     """
 
-def get_price_history() -> str:  # TODO: HANDLE TIME AND TICKER FOR FILTERING
+def get_price_history() -> str:
     return """
     SELECT t.ticker, p.price, p."timestamp" 
     FROM prices p
     JOIN tickers t ON t.id = p.ticker_id 
-    WHERE p."timestamp" >= NOW() - INTERVAL '120 minute' and t.ticker = 'BTCUSDT';
+    WHERE p."timestamp" >= NOW() - INTERVAL %s and t.ticker = %s
+    ORDER BY p."timestamp" DESC
+    LIMIT %s;
     """
 
