@@ -1,5 +1,7 @@
+import os
 from decouple import config
 from tracker.tracker_wrapper import CryptoTracker, TrackerSettings
+
 
 def track_from_binance(
         save_cached_data: bool,
@@ -7,6 +9,9 @@ def track_from_binance(
         waiting_time: int,
         msg_broker_params: dict,
 ):
+
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
 
     my_settings = TrackerSettings(
         exchange="binance",
