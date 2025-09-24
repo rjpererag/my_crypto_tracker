@@ -76,7 +76,10 @@ class Dashboard:
 
                 base_chart = alt.Chart(price_history_df).mark_line().encode(
                     x=alt.X('date', title='Timestamp', axis=alt.Axis(grid=True)),
-                    y=alt.Y('price', title=self.settings["ticker"], axis=alt.Axis(grid=True)),
+                    y=alt.Y('price',
+                            title=self.settings["ticker"],
+                            axis=alt.Axis(grid=True, format=".2f")
+                            ),
                     tooltip=['date', 'price']
                 ).interactive()
 
