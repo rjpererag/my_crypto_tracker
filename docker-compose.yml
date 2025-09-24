@@ -59,5 +59,19 @@ services:
     depends_on:
       - db
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: my-frontend
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+      - db
+    env_file:
+      - ".env"
+
 volumes:
   postgres_data:
