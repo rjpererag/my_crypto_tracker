@@ -24,11 +24,12 @@ def get_tickers_() -> str:
 
 def get_price_history() -> str:
     return """
-    SELECT t.ticker, p.price, p."timestamp" 
+    SELECT t.ticker, AVG(p.price) AS price, DATE_TRUNC('minute', MAX(p."timestamp")) as timestamp
     FROM prices p
-    JOIN tickers t ON t.id = p.ticker_id 
-    WHERE p."timestamp" >= NOW() - INTERVAL %s and t.ticker = %s
-    ORDER BY p."timestamp" DESC
-    LIMIT %s;
+    JOIN tickers t ON t.id = p.ticker_id
+    WHERE p."timestamp" >= NOW() - INTERVAL '24 hours' AND t.ticker = 'BTCUSDT'
+    GROUP by t.ticker, FLOOR(EXTRACT(EPOCH FROM p."timestamp") / (1*60))
+    ORDER by timestamp DESC
+    limit 100;
     """
 

@@ -61,7 +61,7 @@ def get_price_history_minutes(minutes: str, ticker: str):
         format_price_history,
         minutes,
         ticker,
-        10
+        1
     )
 
 
