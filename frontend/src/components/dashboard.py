@@ -3,6 +3,8 @@ import streamlit as st
 from decouple import config
 from requests.exceptions import *
 from time import sleep
+import altair as alt
+
 
 from ..utils.fetch_data import DataFetcher
 
@@ -17,7 +19,7 @@ class Dashboard:
     @staticmethod
     def _format_price_history_df(price_history_df: pd.DataFrame) -> pd.DataFrame:
         price_history_df['date'] = pd.to_datetime(price_history_df['date'])
-        price_history_df.set_index('date', inplace=True)
+        price_history_df.set_index('date', inplace=False)
         return price_history_df
 
     def _get_price_history_df(self) -> pd.DataFrame:
@@ -34,26 +36,45 @@ class Dashboard:
 
         return pd.DataFrame()
 
-    @staticmethod
-    def create_price_history_chart(price_history_df: pd.DataFrame, placeholder):
+
+    def create_price_history_chart(self,
+                                   price_history_df: pd.DataFrame,
+                                   placeholder,
+                                   **kwargs):
+
+        subheader_ ="Price Evolution"
+        if kwargs.get("symbol"):
+            subheader_ += f" {kwargs['symbol']}"
 
         if not price_history_df.empty:
             with placeholder.container():
-                st.subheader(f"Price Evolution")
-                st.line_chart(price_history_df['price'])
-                st.write(price_history_df.tail(1))
+                st.subheader(subheader_)
+
+                # --- The Altair Chart Code ---
+                chart = alt.Chart(price_history_df).mark_line().encode(
+                    x=alt.X('date', title='Timestamp', axis=alt.Axis(grid=True)),
+                    y=alt.Y('price', title=self.settings["ticker"], axis=alt.Axis(grid=True)),
+                    tooltip=['date', 'price']
+                ).interactive()
+
+                st.altair_chart(chart, use_container_width=True)
+                # --- End of Altair Chart Code ---
+
+                # st.line_chart(price_history_df['price'])
+                # st.write(price_history_df.tail(1))
         else:
             with placeholder.container():
                 st.warning("No data available for the specified parameters.")
 
-    def show_price_history_chart(self, placeholder = None):
+    def show_price_history_chart(self, placeholder = None, **kwargs):
         try:
             if not placeholder:
                 placeholder = st.empty()
 
             price_history_df = self._get_price_history_df()
             self.create_price_history_chart(price_history_df=price_history_df,
-                                            placeholder=placeholder
+                                            placeholder=placeholder,
+                                            symbol=kwargs.get("symbol")
                                             )
 
         except RequestException:
@@ -66,5 +87,9 @@ class Dashboard:
     def stream_price_history_chart(self):
         chart_placeholder = st.empty()
         while True:
-            self.show_price_history_chart(placeholder=chart_placeholder)
+            self.show_price_history_chart(
+                placeholder=chart_placeholder,
+                symbol=self.settings["symbol"],
+            )
+
             sleep(self.settings['refresh_rate'])

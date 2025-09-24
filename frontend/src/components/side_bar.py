@@ -77,4 +77,4 @@ class SideBar:
                 help="Set how often the data should refresh.",
             )
 
-        return selected_ticker, selected_refresh_rate
+        return selected_symbol, selected_ticker, selected_refresh_rate

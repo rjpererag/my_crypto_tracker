@@ -8,18 +8,24 @@ def app():
         page_title=f"Real-Time Dashboard",
         layout="wide",
     )
-    st.title(f"Real-Time Price Dashboard")
-    selected_ticker, selected_refresh_rate = SideBar().create_sidebar()
+    # st.title(f"Real-Time Price Dashboard")
+
+    (
+        selected_symbol,
+        selected_ticker,
+        selected_refresh_rate
+    ) = SideBar().create_sidebar()
 
     dashboard_settings = {
         "ticker": selected_ticker,
         "time_interval": "2880 minutes",
         "refresh_rate": selected_refresh_rate,
+        "symbol": selected_symbol,
     }
 
 
     dashboard = Dashboard(settings=dashboard_settings)
-    dashboard.show_price_history_chart()
+    dashboard.show_price_history_chart(None, symbol=selected_symbol)
     # dashboard.stream_price_history_chart()
 
 
