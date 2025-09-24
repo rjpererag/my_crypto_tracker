@@ -5,10 +5,9 @@ from .components import Dashboard, SideBar
 def app():
 
     st.set_page_config(
-        page_title=f"Real-Time Dashboard",
+        page_title=f"my-crypto-app",
         layout="wide",
     )
-    # st.title(f"Real-Time Price Dashboard")
 
     (
         selected_symbol,
@@ -23,15 +22,6 @@ def app():
         "symbol": selected_symbol,
     }
 
-
     dashboard = Dashboard(settings=dashboard_settings)
-    dashboard.show_price_history_chart(None, symbol=selected_symbol)
-    # dashboard.stream_price_history_chart()
+    dashboard.stream_price_history_chart()
 
-
-    # dashboard_settings = {
-    #     "host": "http://localhost:5001",
-    #     "ticker": "BTCUSDT",
-    #     "time_interval": "2880 minutes",
-    #     "refresh_rate": 10,
-    # }

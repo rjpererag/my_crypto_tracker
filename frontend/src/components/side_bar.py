@@ -41,8 +41,11 @@ class SideBar:
         return []
 
     def _get_available_options(self):
-        self._get_exchanges()
-        self._get_symbols()
+        try:
+            self._get_exchanges()
+            self._get_symbols()
+        except Exception as e:
+            st.error(f"Connection error. {str(e)}")
 
     def create_sidebar(self):
         with st.sidebar:
