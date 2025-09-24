@@ -3,7 +3,7 @@ import streamlit as st
 from requests.exceptions import *
 from time import sleep
 
-from .fetch_data import DataFetcher
+from ..utils.fetch_data import DataFetcher
 
 
 class Dashboard:
@@ -45,8 +45,11 @@ class Dashboard:
             with placeholder.container():
                 st.warning("No data available for the specified parameters.")
 
-    def show_price_history_chart(self, placeholder):
+    def show_price_history_chart(self, placeholder = None):
         try:
+            if not placeholder:
+                placeholder = st.empty()
+
             price_history_df = self._get_price_history_df()
             self.create_price_history_chart(price_history_df=price_history_df,
                                             placeholder=placeholder
