@@ -1,3 +1,7 @@
+import os
+if not os.path.exists("logs"):
+    os.makedirs("logs")
+
 from decouple import config
 
 from service.dbhandler import DBCredentials

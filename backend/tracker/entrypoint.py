@@ -1,4 +1,7 @@
 import os
+if not os.path.exists("logs"):
+    os.makedirs("logs")
+
 from decouple import config
 from tracker.tracker_wrapper import CryptoTracker, TrackerSettings
 
@@ -10,8 +13,6 @@ def track_from_binance(
         msg_broker_params: dict,
 ):
 
-    if not os.path.exists("logs"):
-        os.makedirs("logs")
 
     my_settings = TrackerSettings(
         exchange="binance",
