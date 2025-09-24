@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+from decouple import config
 from requests.exceptions import *
 from time import sleep
 
@@ -11,7 +12,7 @@ class Dashboard:
     def __init__(self, settings: dict):
         self.settings = settings
 
-        self.fetcher = DataFetcher(host=self.settings["host"])
+        self.fetcher = DataFetcher(host=config('API_HOST'))
 
     @staticmethod
     def _format_price_history_df(price_history_df: pd.DataFrame) -> pd.DataFrame:
