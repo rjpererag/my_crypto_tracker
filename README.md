@@ -43,7 +43,9 @@ Take in consideration the file must have execution permission, if not you can ex
 
 After creating our environment we can move to the next step which is running our containers. Since the project requires 
 several individual containers we are going to leverage on the docker-compose.yml file. For this we can use the 
-“docker-compose up -d” command to start running our application.
+“docker-compose up -d” 
+
+*Commands to start running our application.*
 
 ```bash
 chmod +x create_env.sh
